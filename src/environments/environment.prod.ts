@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  API_URL: process.env['NG_API_BASE_URL'],
+  API_URL: 'https://mean-backend-eight.vercel.app/api',
 };
