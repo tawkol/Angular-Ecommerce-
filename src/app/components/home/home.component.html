@@ -1,0 +1,223 @@
+<div class="bg-primary text-white py-5 hero-background">
+    <div class="container py-5 text-center text-lg-start">
+        <h1 class="display-4"> {{'home.hero.title' | translate}} </h1>
+        <p class="lead"> {{'home.hero.description' | translate}} </p>
+        <div class="d-flex gap-3 justify-content-center justify-content-lg-start">
+            <button type="button" class="btn btn-outline-light">{{'home.hero.learnMore' | translate}}</button>
+            <button type="button"
+                class="btn btn-light shadow-0 text-primary border border-white">{{'home.hero.purchaseNow' |
+                translate}}</button>
+        </div>
+    </div>
+</div>
+
+<!-- Products -->
+<section>
+    <div class="container my-5">
+        <header class="mb-4">
+            <h3>New products</h3>
+        </header>
+
+        <div class="row">
+            @for (product of newProducts; track $index) {
+
+            <app-card class="col-lg-3 col-md-6 col-sm-6 d-flex" [product]="product"
+                (addToCart)="onAddToCart($event)"></app-card>
+            }
+            <app-toast [showMessage]="{
+                message: 'Item added to cart successfully',
+                toastVisible: toastVisible
+            }" />
+
+        </div>
+    </div>
+</section>
+<!-- Products -->
+
+
+<!-- Feature -->
+<section class="mt-5" style="background-color: #f5f5f5;">
+    <div class="container text-dark pt-3">
+        <header class="pt-4 pb-3 text-center">
+            <h3>Why Choose Us</h3>
+            <p class="lead">Discover the reasons why our customers love us!</p>
+        </header>
+
+        <div class="row mb-4">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faCameraRetro" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Reasonable Prices</h6>
+                        <p>We offer competitive prices without compromising on quality, ensuring you get the best value
+                            for your money.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faStar" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Best Quality</h6>
+                        <p>Our products undergo rigorous quality checks, guaranteeing that you receive only the best for
+                            your needs.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faPlane" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Worldwide Shipping</h6>
+                        <p>We deliver to locations around the globe, making sure you receive your order wherever you
+                            are.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faUsers" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Customer Satisfaction</h6>
+                        <p>Your happiness is our priority. We’re dedicated to providing excellent service and support at
+                            every step.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faThumbsUp" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Happy Customers</h6>
+                        <p>Join our community of satisfied customers who appreciate our commitment to quality and
+                            service.</p>
+                    </figcaption>
+                </figure>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <figure class="d-flex align-items-center">
+                    <span class="rounded-circle bg-white p-3 d-flex me-2 align-items-center
+justify-content-center" style="width: 30%; aspect-ratio: 1/1; font-size: 1.2rem;">
+                        <fa-icon [icon]="icons.faBox" class="fas fa-fw text-primary" />
+                    </span>
+                    <figcaption class="info">
+                        <h6 class="title">Thousands of Items</h6>
+                        <p>Explore our extensive selection of products, with new items added regularly to suit your
+                            needs.</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+    <!-- container end.// -->
+</section>
+<!-- Feature -->
+
+
+<!-- Blog -->
+<section class="mt-5 mb-4">
+    <div class="container text-dark">
+        <header class="mb-4">
+            <h3>Blog posts</h3>
+        </header>
+
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <article>
+                    <a href="#" class="img-fluid">
+                        <img class="rounded w-100" src="https://mdbootstrap.com/img/bootstrap-ecommerce/posts/1.webp"
+                            style="object-fit: cover;" height="160" />
+                    </a>
+                    <div class="mt-2 text-muted small d-block mb-1">
+                        <span>
+                            <i class="fa fa-calendar-alt fa-sm"></i>
+                            23.12.2022
+                        </span>
+                        <a href="#">
+                            <h6 class="text-dark">How to promote brands</h6>
+                        </a>
+                        <p>When you enter into any new area of science, you almost reach</p>
+                    </div>
+                </article>
+            </div>
+            <!-- col.// -->
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <article>
+                    <a href="#" class="img-fluid">
+                        <img class="rounded w-100" src="https://mdbootstrap.com/img/bootstrap-ecommerce/posts/2.webp"
+                            style="object-fit: cover;" height="160" />
+                    </a>
+                    <div class="mt-2 text-muted small d-block mb-1">
+                        <span>
+                            <i class="fa fa-calendar-alt fa-sm"></i>
+                            13.12.2022
+                        </span>
+                        <a href="#">
+                            <h6 class="text-dark">How we handle shipping</h6>
+                        </a>
+                        <p>When you enter into any new area of science, you almost reach</p>
+                    </div>
+                </article>
+            </div>
+            <!-- col.// -->
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <article>
+                    <a href="#" class="img-fluid">
+                        <img class="rounded w-100" src="https://mdbootstrap.com/img/bootstrap-ecommerce/posts/3.webp"
+                            style="object-fit: cover;" height="160" />
+                    </a>
+                    <div class="mt-2 text-muted small d-block mb-1">
+                        <span>
+                            <i class="fa fa-calendar-alt fa-sm"></i>
+                            25.11.2022
+                        </span>
+                        <a href="#">
+                            <h6 class="text-dark">How to promote brands</h6>
+                        </a>
+                        <p>When you enter into any new area of science, you almost reach</p>
+                    </div>
+                </article>
+            </div>
+            <!-- col.// -->
+            <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                <article>
+                    <a href="#" class="img-fluid">
+                        <img class="rounded w-100" src="https://mdbootstrap.com/img/bootstrap-ecommerce/posts/4.webp"
+                            style="object-fit: cover;" height="160" />
+                    </a>
+                    <div class="mt-2 text-muted small d-block mb-1">
+                        <span>
+                            <i class="fa fa-calendar-alt fa-sm"></i>
+                            03.09.2022
+                        </span>
+                        <a href="#">
+                            <h6 class="text-dark">Success story of sellers</h6>
+                        </a>
+                        <p>When you enter into any new area of science, you almost reach</p>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Blog -->

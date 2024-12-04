@@ -1,0 +1,147 @@
+<header>
+    <div class="p-3 text-center bg-white border-bottom">
+        <div class="container">
+            <div class="row gy-3 align-items-center">
+                <!-- Logo Section -->
+                <div class="col-lg-2 col-sm-4 col-4 d-flex align-items-center">
+                    <a routerLink="/" class="d-flex align-items-center">
+                        <img src="https://mdbootstrap.com/img/logo/mdb-transaprent-noshadows.png" height="35"
+                            alt="MDB Logo" />
+                    </a>
+                </div>
+
+                <!-- Sign In and Cart Section -->
+                <div class="col-lg-5 col-sm-8 col-8 order-lg-last d-flex justify-content-end align-items-center gap-3">
+                    <!-- Sign In Button -->
+                    @if (user()) {
+                    <div class="dropdown">
+                        <button
+                            class="btn border rounded py-1 px-3 btn-custom nav-link d-flex align-items-center gap-2 position-relative "
+                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <fa-icon class="me-md-2" [icon]="UserIcon"></fa-icon>
+                            <span class="d-none d-md-block">
+                                {{user()?.user.name}}
+                            </span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" [routerLink]="['/orders']">
+                                    <span class="me-1" style="font-size: .8rem;">
+                                        <fa-icon [icon]="TruckIcon"></fa-icon>
+                                    </span>
+                                    Orders
+                                </a></li>
+                            <li><a class="dropdown-item" [routerLink]="['/user-account']">
+                                    <span class="me-1" style="font-size: .8rem;">
+                                        <fa-icon [icon]="settingIcon"></fa-icon>
+                                    </span>
+                                    Settings </a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li><button class="dropdown-item" (click)="logout()"> <span class="me-1"
+                                        style="font-size: .8rem;">
+                                        <fa-icon [icon]="logOutIcon"></fa-icon>
+                                    </span>Logout</button></li>
+                        </ul>
+                    </div>
+
+                    }@else {
+
+                    <a [routerLink]="['/register']"
+                        class="btn border rounded py-1 px-3 btn-custom nav-link d-flex align-items-center gap-2 position-relative">
+                        <fa-icon class="me-md-2" [icon]="UserIcon"></fa-icon>
+                        <span class="d-none d-md-block">{{ 'header.signIn' | translate}}</span>
+                    </a>
+                    }
+
+                    <!-- Cart Button -->
+                    <a [routerLink]="['/cart']"
+                        class="btn border rounded py-1 px-3 btn-custom nav-link d-flex align-items-center gap-2 position-relative">
+                        <fa-icon [icon]="ShoppingCartIcon"></fa-icon>
+                        <span class="d-none d-md-block">{{ 'header.myCart' | translate}}</span>
+
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            {{ cartService.getCartItemCount() }}
+                            <span class="visually-hidden">items in cart</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Search Bar and Burger Menu on Small Screens -->
+                <div
+                    class="col-lg-5 col-md-12 col-12 order-lg-0 d-flex justify-content-between justify-content-lg-center gap-3">
+                    <!-- Search Bar -->
+                    <form (ngSubmit)="performSearch()" #form="ngForm"
+                        [class]=" getCurrentLang() ==='ar' ? 'input-group inputAR flex-grow-1 h-100' : 'input-group flex-grow-1 h-100'">
+                        <input name="search" (input)="fetchSearchSuggestions()" [(ngModel)]="search" type="search"
+                            id="Search" class="form-control " [placeholder]=" 'header.search' | translate"
+                            aria-label="Search" autocomplete="off" (focus)="onFocus()" (blur)="onBlur()" />
+                        <button type="submit" class="btn btn-primary shadow-0" aria-label="Search Button">
+                            <fa-icon [icon]="SearchIcon"></fa-icon>
+                        </button>
+                        @if (showSuggestions) {
+                        <ul class="list-group position-absolute w-100 shadow-lg mt-2 bg-white" style="z-index: 1000;">
+                            @for (result of searchResults; track $index) {
+                            <li class="list-group-item list-group-item-action suggestion-item"
+                                (click)="selectSuggestion(result)">
+                                <a class="suggestion-link" [routerLink]="['/product', result._id]">
+                                    {{ result.name }}
+                                </a>
+                            </li>
+                            }@empty {
+                            <li class="list-group-item list-group-item-action">
+                                <span class="text-center">No results found</span>
+                            </li>
+                            }
+                        </ul>
+                        }
+                        <!-- <ul *ngIf=" showSuggestions" class="list-group position-absolute w-100 shadow-lg mt-2 bg-white"
+                            style="z-index: 1000;">
+                            <li *ngFor="let result of searchResults" class="list-group-item list-group-item-action"
+                                (click)="selectSuggestion(result)">
+                                {{ result.name }}
+                            </li>
+                            <li *ngIf="showSuggestions && searchResults.length === 0"
+                                class="list-group-item list-group-item-action">
+                                No products found.
+                            </li>
+                        </ul> -->
+                    </form>
+
+                    <!-- Burger Menu (visible only on small screens) -->
+                    <button class="navbar-toggler rounded-2 d-lg-none btn border py-2 px-3 text-dark" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#navbarMenu" (click)="toggleNavbar()"
+                        aria-controls="navbarMenu" aria-expanded="false" aria-label="Toggle navigation">
+                        <fa-icon [icon]="BurgerIcon"></fa-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar (Collapsible on Small Screens) -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container d-flex justify-content-center justify-content-md-between">
+            <!-- Collapsible Navigation Links -->
+            <div [className]="isNavbarCollapsed ? 'collapse navbar-collapse' : 'show' " id="navbarMenu">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex gap-3">
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" routerLink="/products">{{'header.allProducts' |
+                            translate}}</a>
+                    </li>
+                    <app-categories style="display: contents;" />
+
+                    <li class="nav-item">
+                        <!-- Language Selector -->
+                        <select class="form-select flex-grow-0" aria-label="language selector"
+                            (change)="switchLanguage($event)">
+                            <option [selected]="getCurrentLang()==='en'" value="en">English</option>
+                            <option [selected]="getCurrentLang()==='ar'" value="ar">العربية</option>
+                        </select>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+</header>

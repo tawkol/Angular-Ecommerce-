@@ -1,0 +1,32 @@
+{
+  "header": {
+    "home": "Home",
+    "about": "About",
+    "contact": "Contact",
+    "search": "search",
+    "signIn": "Sign in",
+    "myCart": "My cart"
+  },
+  "home": {
+    "hero": {
+      "title": "Best products & brands in our store",
+      "description": "Trendy Products, Factory Prices, Excellent Service",
+      "learnMore": "Learn more",
+      "purchaseNow": "Purchase now"
+    }
+  },
+
+  "cart": {
+    "cartTotalItems": "Cart - {{value}} items",
+    "quantity": "quantity",
+    "summary": "summary",
+    "subtotal": "subtotal ({{value}} items): ",
+    "shipping": "shipping",
+    "includingVat": "(includingVAT)",
+    "totalAmount": " Total amount",
+    "checkout": "Go to checkout",
+    "emptyCart": " Your cart is empty",
+    "addProduct": "Add some products to your cart to get started.",
+    "continueShopping": " Continue Shopping "
+  }
+}

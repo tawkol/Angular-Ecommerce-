@@ -1,0 +1,47 @@
+<div class="sign-up-container">
+  <h2>Sign Up</h2>
+  <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" id="name" formControlName="name" placeholder="Enter your name" />
+      <div *ngIf="signUpForm.get('name')?.invalid && signUpForm.get('name')?.touched" class="error">
+        <small *ngIf="signUpForm.get('name')?.errors?.['required']">Name is required.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="signUpemail">Email</label>
+      <input type="email" id="signUpemail" formControlName="email" placeholder="Enter your email" />
+      <div *ngIf="signUpForm.get('email')?.invalid && signUpForm.get('email')?.touched" class="error">
+        <small *ngIf="signUpForm.get('email')?.errors?.['required']">Email is required.</small>
+        <small *ngIf="signUpForm.get('email')?.errors?.['email']">Invalid email format.</small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="signUppassword">Password</label>
+      <input type="password" id="signUppassword" formControlName="password" placeholder="Enter your password" />
+      <div *ngIf="signUpForm.get('password')?.invalid && signUpForm.get('password')?.touched" class="error">
+        <small *ngIf="signUpForm.get('password')?.errors?.['required']">Password is required.</small>
+        <small *ngIf="signUpForm.get('password')?.errors?.['minlength']">Password must be at least 5 characters
+          long.</small>
+      </div>
+    </div>
+    <div class="form-group position-relative">
+      <label for="phone">Phone</label>
+      <div class="input-group mb-3">
+        <span class="input-group-text" id="phoneCode">+20</span>
+        <input type="tel" id="phone" class="form-control" formControlName="phone" placeholder="phone"
+          aria-describedby="phoneCode" />
+      </div>
+      <div *ngIf="signUpForm.get('phone')?.invalid && signUpForm.get('phone')?.touched" class="error">
+        <small *ngIf="signUpForm.get('phone')?.errors?.['required']">Phone is required.</small>
+      </div>
+    </div>
+
+    <button type="submit" [disabled]="signUpForm.invalid || submitted">
+      @if (submitted) {<app-spinner />}
+
+      Sign Up</button>
+  </form>
+</div>

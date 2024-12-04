@@ -1,0 +1,74 @@
+<section class="product d-flex justify-content-center align-items-start flex-wrap gap-4">
+  @if (product) {
+  <div class="d-flex gap-3 imagesContainer" style="height: 350px;">
+    <aside class="thumbnailContainer">
+      <!-- Thumbnails -->
+      @for (img of product.img_urls; track $index) {
+      <div (click)="setImageIndex($index)" [class]="imageIndex === $index ? 'thumbnail active' : 'thumbnail'">
+        <img [src]="imgUrl + img" [alt]="product.name + $index" class="thumbnail-img shadow">
+      </div>
+      }
+    </aside>
+    <div class="product-img">
+      <img [src]="imgUrl + product.img_urls[imageIndex]" [alt]="product.name">
+      <div class="arrows">
+        <button class="left" (click)="prevImage()" [disabled]="imageIndex === 0">
+          <fa-icon [icon]="icons.left" />
+        </button>
+        <button class="right" (click)="nextImage()" [disabled]="imageIndex === product.img_urls.length - 1">
+          <fa-icon [icon]="icons.right" />
+        </button>
+      </div>
+      <div class="dots">
+        @for (dotes of product.img_urls; track $index) {
+        <span [class]="imageIndex === $index ? 'dot active' : 'dot'" (click)="setImageIndex($index)">
+        </span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <div class="product-details">
+    <h5>{{ product.name }}</h5>
+    <p class="text-muted">{{ product.description }}</p>
+    <h6 class="text-success">{{product.price | currency}}</h6>
+
+    <button type="button" [disabled]="product.loading" (click)="addToCart()"
+      class="btn btn-primary d-flex justify-content-center align-items-center gap-2 shadow-0 px-4 w-100">
+      @if (product.loading) {<app-spinner />}
+      Add to cart
+    </button>
+  </div>
+
+  }@else {
+  <!-- Loading Spinner and No Product Message -->
+  <p>No product found.</p>
+  <app-spinner></app-spinner>
+  }
+</section>
+
+<section class="similar-products mt-5">
+  <h5>Similar Products</h5>
+  <div class="carousel-container">
+    <owl-carousel-o [options]="carouselOptions" #carousel>
+      <ng-template carouselSlide *ngFor="let product of similarProducts">
+        <app-card [product]="product" (addToCart)="addToCart($event)"></app-card>
+      </ng-template>
+    </owl-carousel-o>
+    <button class="owl-prev" (click)="carousel.prev()">
+      <fa-icon [icon]="icons.left" />
+    </button>
+    <button class="owl-next" (click)="carousel.next()">
+      <fa-icon [icon]="icons.right" />
+    </button>
+  </div>
+</section>
+
+
+
+
+
+<app-toast [showMessage]="{
+  message: 'Item added to cart successfully',
+  toastVisible: toastVisible
+}" />

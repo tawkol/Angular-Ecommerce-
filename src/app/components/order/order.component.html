@@ -1,0 +1,53 @@
+<div class="container mt-4">
+    <h2 class="mb-4">Order History</h2>
+
+    <!-- Loading State -->
+    <div *ngIf="isLoading" class="text-center my-4">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Orders List -->
+    <div *ngIf="!isLoading && orders.length" class="order-list">
+        <div *ngFor="let order of orders" class="order-card">
+            <div class="order-header">
+                <div>
+                    <strong>Order ID:</strong> {{ order._id }}
+                </div>
+                <div>
+                    <strong>Placed On:</strong> {{ order.createdAt | date: 'longDate' }}
+                </div>
+            </div>
+            <hr />
+            <div class="order-body">
+                <div *ngFor="let item of order.products" class="order-item">
+                    <img [src]="imgUrl + item.img_urls[0]" alt="{{ item.name }}" class="product-image" />
+                    <div class="product-details">
+                        <div class="product-name">{{ item.name }}</div>
+                        <div class="product-quantity">Quantity: {{ item.quantity }}</div>
+                        <div class="product-price">{{ item.price | currency }}</div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="order-footer">
+                <div><strong>Total:</strong> {{ order.totalAmount | currency }}</div>
+                <div class="actions">
+                    <button class="btn btn-primary btn-sm">Track Order</button>
+                    <button class="btn btn-secondary btn-sm">View Details</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- No Orders Message -->
+    <div *ngIf="!isLoading && !orders.length" class="alert alert-info">
+        No orders found.
+    </div>
+</div>

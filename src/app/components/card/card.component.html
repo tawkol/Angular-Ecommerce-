@@ -1,0 +1,18 @@
+<div class="card w-100 my-2 shadow-2-strong">
+    <img [src]="imgUrl + product.img_urls[0]" 
+    loading="lazy" 
+    alt={{product.name}}
+    class="card-img-top img-fluid" [routerLink]="['/product',product._id]" />
+    <div class="card-body d-flex flex-column">
+        <h5 class="card-title"> {{product.name}} </h5>
+        <p class="card-text">{{product.price | currency:'USD':'symbol':'1.0-0'}}</p>
+        <div class="card-footer d-flex align-items-end bg-transparent
+                justify-content-center pt-3 px-0 pb-0 mt-auto">
+            <button type="button" [disabled]="product.loading" (click)="addItem()"
+                class="btn btn-primary d-flex justify-content-center align-items-center gap-2 shadow-0  px-3 w-75">
+                @if (product.loading ) {<app-spinner />}
+                Add to cart
+            </button>
+        </div>
+    </div>
+</div>

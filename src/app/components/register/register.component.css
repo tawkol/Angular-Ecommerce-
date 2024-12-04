@@ -1,0 +1,9 @@
+/* Optional: Customize the tab styles if needed */
+.nav-pills .nav-link {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 0.8em;
+}

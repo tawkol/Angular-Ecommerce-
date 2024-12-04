@@ -1,0 +1,196 @@
+<section class="bg-light py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-8 col-lg-8 mb-4">
+                <!-- Checkout -->
+                <form (ngSubmit)="placeOrder()" #checkoutForm="ngForm" class="card shadow-0 border">
+                    <div class="p-4">
+                        <h5 class="card-title mb-3">Shipping info</h5>
+                        <div class="row mb-3">
+                            <div class="col-lg-4 mb-3" *ngFor="let option of shippingOptions; let i = index">
+                                <div class="form-check h-100 border rounded-3">
+                                    <div class="p-3">
+                                        <input [(ngModel)]="order.shippingPrice" required class="form-check-input"
+                                            type="radio" [value]="option.price" name="shippingPrice"
+                                            [checked]="selectedShippingOption.id === option.id"
+                                            (change)="updateShipping(option)" id="shippingOption{{ i }}" />
+                                        <label class="form-check-label" [for]="'shippingOption' + i">
+                                            {{ option.label }} <br />
+                                            <small class="text-muted">
+                                                {{ option.subLabel }}
+                                                {{ option.price | currency: 'USD':'symbol':'1.0-0' }}
+                                            </small>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="card-header">
+                                <h4>
+                                    <fa-icon [icon]="faAddressBook" class="me-2"></fa-icon>Select Address
+                                </h4>
+                                <button class="btn btn-primary float-end" type="button"
+                                    (click)="showAddAddressForm = !showAddAddressForm">
+                                    <span *ngIf="showAddAddressForm">
+                                        <fa-icon [icon]="faMinus" class="me-1"></fa-icon> close
+                                    </span>
+                                    <span *ngIf="!showAddAddressForm">
+                                        <fa-icon [icon]="faPlus" class="me-1"></fa-icon> Add Address
+                                    </span>
+                                </button>
+                            </div>
+                            <div *ngIf="showAddAddressForm" class="my-4">
+                                <h5>Add Address</h5>
+                                <form class="row" (ngSubmit)="addAddress($event, addressForm)" #addressForm="ngForm">
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">*Building Name</p>
+                                        <div class="form-outline">
+                                            <input type="text" class="form-control"
+                                                [(ngModel)]="currentAddress.buildingName" name="buildingName" required
+                                                #buildingName="ngModel" />
+                                            <div *ngIf="buildingName.invalid && buildingName.touched"
+                                                class="text-danger">
+                                                Building Name is required.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 mb-3">
+                                        <p class="mb-0">*City</p>
+                                        <select class="form-select" [(ngModel)]="currentAddress.city" name="city"
+                                            #city="ngModel" required>
+                                            <option value="Cairo">Cairo</option>
+                                            <option value="Alexandria">Alexandria</option>
+                                            <option value="Aswan">Aswan</option>
+                                        </select>
+                                        <div *ngIf="city.invalid && city.touched" class="text-danger">
+                                            City is required.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3 mb-3">
+                                        <p class="mb-0">*Flat Number</p>
+                                        <input type="number" class="form-control" [(ngModel)]="currentAddress.flatNo"
+                                            name="flatNo" required #flatNo="ngModel" />
+                                        <div *ngIf="flatNo.invalid && flatNo.touched" class="text-danger">
+                                            Flat Number is required.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-6 mb-3">
+                                        <p class="mb-0">*Floor Number</p>
+                                        <input type="number" class="form-control" [(ngModel)]="currentAddress.floorNo"
+                                            name="floorNo" required #floorNo="ngModel" />
+                                        <div *ngIf="floorNo.invalid && floorNo.touched" class="text-danger">
+                                            Floor Number is required.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 mb-3">
+                                        <p class="mb-0">*Street</p>
+                                        <input type="text" class="form-control" [(ngModel)]="currentAddress.street"
+                                            name="street" required #street="ngModel" />
+                                        <div *ngIf="street.invalid && street.touched" class="text-danger">
+                                            Street is required.
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 mb-3">
+                                        <p class="mb-0">Details</p>
+                                        <textarea class="form-control" [(ngModel)]="currentAddress.details"
+                                            name="details"></textarea>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <button class="btn btn-primary w-100" type="submit"
+                                            [disabled]="addressForm.invalid">
+                                            Add Address
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <ul class="list-group w-100 pe-0 rounded-0">
+                                <li class="list-group-item" *ngFor="let address of user()?.user.address; let i = index">
+                                    <div class="form-check h-100">
+                                        <div class="p-3">
+                                            <input [(ngModel)]="order.shippingAddress" class="form-check-input"
+                                                type="radio" name="shippingAddress" [id]="'address'+i" [value]="address"
+                                                [checked]="i === 0" #shippingAddress="ngModel" />
+                                            <label class="form-check-label" [for]="'address'+i">
+                                                <strong>Address {{ i + 1 }}:</strong> {{address.buildingName}},
+                                                {{ address.flatNo }},
+                                                {{ address.floorNo }}, {{ address.buildingNo }},
+                                                {{ address.street }}, {{ address.city }},
+                                                {{address.details}}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+
+                            <div class="mt-3 ps-1">
+                                <h5>Payment Method</h5>
+                                <div class="form-check">
+                                    <input [(ngModel)]="order.paymentMethod" class="form-check-input" type="radio"
+                                        name="paymentMethod" id="cash" value="cash" checked />
+                                    <label class="form-check-label" for="cash">Cash</label>
+                                </div>
+                                <div class="form-check">
+                                    <input [(ngModel)]="order.paymentMethod" class="form-check-input" type="radio"
+                                        name="paymentMethod" id="visa" value="visa" />
+                                    <label class="form-check-label" for="visa">Visa</label>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success w-100"
+                                [disabled]="!order.shippingPrice || !order.shippingAddress || !order.paymentMethod">
+                                Place Order
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Summary -->
+            <div class="col-xl-4 col-lg-4">
+                <div>
+                    <div class="card-header">
+                        <h4 class="mb-0">Order Summary</h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled">
+                            <li class="d-flex justify-content-between">
+                                <span>Subtotal</span>
+                                <span>{{ subtotal | currency: 'USD':'symbol':'1.0-0' }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <span>Shipping</span>
+                                <span>{{ shipping | currency: 'USD':'symbol':'1.0-0' }}</span>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <span><strong>Total</strong></span>
+                                <span><strong>{{ total | currency: 'USD':'symbol':'1.0-0' }}</strong></span>
+                            </li>
+                        </ul>
+
+                    </div>
+                    <hr />
+                    <h6 class="text-dark my-4">Items in cart</h6>
+                    <div *ngFor="let item of cart; let i = index" class="d-flex align-items-center mb-4">
+                        <div class="me-3 position-relative">
+                            <span
+                                class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-dark">
+                                {{item.quantity}}
+                            </span>
+                            <img [src]="imgUrl + item.img_urls[0]" style="height: 96px; width: 96px; object-fit: cover;"
+                                class="img-sm rounded border " />
+                        </div>
+                        <div class="">
+                            <a [routerLink]="['/product',item._id]" class="nav-link">
+                                {{ item.name }}
+                            </a>
+                            <div class="price text-muted">{{item.price * item.quantity |
+                                currency:'USD':'symbol':'1.0-0'}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

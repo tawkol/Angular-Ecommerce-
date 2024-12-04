@@ -1,0 +1,103 @@
+<div class="container mt-4">
+    <h2 class="text-center">User Account</h2>
+
+    <!-- User Details Section -->
+    <div class="card my-4">
+        <div class="card-header">
+            <h4>
+                <fa-icon [icon]="faUser" class="me-2"></fa-icon> User Details
+            </h4>
+        </div>
+        <div class="card-body">
+            <p><strong>Name:</strong> {{ user()?.user.name }}</p>
+            <p><strong>Email:</strong> {{ user()?.user.email }}</p>
+            <p><strong>Phone:</strong> +20 {{ user()?.user.phone }}</p>
+        </div>
+    </div>
+
+    <!-- Address Section -->
+    <div class="card my-4">
+        <div class="card-header">
+            <h4>
+                <fa-icon [icon]="faAddressBook" class="me-2"></fa-icon> Addresses
+            </h4>
+            <button class="btn btn-primary float-end" (click)="showAddAddressForm = !showAddAddressForm">
+                <fa-icon [icon]="faPlus" class="me-1"></fa-icon> Add Address
+            </button>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                <li class="list-group-item" *ngFor="let address of user()?.user.address; let i = index">
+                    <p>
+                        <strong>Address {{ i + 1 }}:</strong> {{address.buildingName}},
+                        {{ address.flatNo }},
+                        {{ address.floorNo }}, {{ address.buildingNo }},
+                        {{ address.street }}, {{ address.city }},
+                        {{address.details}}
+                    </p>
+                    <button class="btn btn-sm btn-warning me-2" (click)="editAddress(i)">
+                        <fa-icon [icon]="faEdit" class="me-1"></fa-icon> Update
+                    </button>
+                    <button class="btn btn-sm btn-danger" (click)="deleteAddress(i)">
+                        <fa-icon [icon]="faTrash" class="me-1"></fa-icon> Remove
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Add/Update Address Form -->
+            <div *ngIf="showAddAddressForm" class="mt-4">
+                <h5>{{ isUpdating ? 'Update Address' : 'Add Address' }}</h5>
+                <form class="row" (ngSubmit)="isUpdating ? updateAddress() : addAddress()">
+                    <div class="col-sm-6 mb-3">
+                        <p class="mb-0">*Building Name</p>
+                        <div class="form-outline">
+                            <input type="text" class="form-control" [(ngModel)]="currentAddress.buildingName"
+                                name="buildingName" required />
+                        </div>
+                    </div>
+                    <div class="col-sm-3 mb-3">
+                        <p class="mb-0">*City</p>
+                        <select class="form-select" [(ngModel)]="currentAddress.city" name="city" required>
+                            <option value="Cairo">Cairo</option>
+                            <option value="Alexandria">Alexandria</option>
+                            <option value="Aswan">Aswan</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-3 mb-3">
+                        <p class="mb-0">*Flat Number</p>
+                        <input type="number" class="form-control" [(ngModel)]="currentAddress.flatNo" name="flatNo"
+                            required />
+                    </div>
+                    <div class="col-sm-4 col-6 mb-3">
+                        <p class="mb-0">*Floor Number</p>
+                        <input type="number" class="form-control" [(ngModel)]="currentAddress.floorNo" name="floorNo"
+                            required />
+                    </div>
+
+                    <div class="col-sm-4 col-6 mb-3">
+                        <p class="mb-0">*Street</p>
+                        <input type="text" class="form-control" [(ngModel)]="currentAddress.street" name="street"
+                            required />
+                    </div>
+                    <div class="col-sm-4 col-6 mb-3">
+                        <p class="mb-0">Additional Details</p>
+                        <input type="text" class="form-control" [(ngModel)]="currentAddress.details"
+                            name="additionalDetails" />
+                    </div>
+
+                    <button type="submit" class="btn btn-success col-sm-3 m-auto">
+                        <fa-icon [icon]="faSave" class="me-1"></fa-icon>
+                        {{ isUpdating ? 'Update' : 'Add' }} Address
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Account Button -->
+    <div class="text-center my-4">
+        <button class="btn btn-danger" (click)="deleteAccount()">
+            <fa-icon [icon]="faTrashAlt" class="me-1"></fa-icon> Delete Account
+        </button>
+    </div>
+</div>

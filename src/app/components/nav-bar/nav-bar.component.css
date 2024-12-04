@@ -1,0 +1,71 @@
+.btn-custom {
+  background-color: #007bff; /* Initial color */
+  color: white;
+}
+
+.btn-custom:hover {
+  background-color: #0056b3; /* Color on hover */
+  color: white;
+}
+.inputAR input {
+  border-top-right-radius: var(--bs-border-radius) !important;
+  border-bottom-right-radius: var(--bs-border-radius) !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+}
+.inputAR button {
+  border-top-left-radius: var(--bs-border-radius) !important;
+  border-bottom-left-radius: var(--bs-border-radius) !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+
+/* Ensure the dropdown is on top of other content */
+.list-group {
+  position: absolute;
+  top: 30px;
+  max-height: 200px; /* Optional: Limit height for long lists */
+  overflow-y: auto;  /* Enable scrolling if the list exceeds max-height */
+  border-radius: 0 0 10px 10px; /* Rounded bottom corners */
+}
+
+.list-group-item {
+  padding: 10px 20px; /* Adds padding for a larger clickable area */
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+/* Hover effect for list items */
+.list-group-item:hover {
+  background-color: #f8f9fa; /* Light grey background on hover */
+}
+
+/* Active state when selecting an item */
+.list-group-item:active {
+  background-color: #007bff; /* Bootstrap primary color for active items */
+  color: white;
+}
+
+.suggestion-item {
+  cursor: pointer;
+}
+
+.suggestion-link {
+  text-decoration: none;
+  color: #007bff; /* Bootstrap primary color */
+  transition: color 0.3s ease;
+}
+
+.suggestion-link:hover {
+  color: #0056b3; /* Darker shade of the primary color */
+  text-decoration: underline; /* Underline when hovered */
+}
+
+.suggestion-item:hover {
+  background-color: #f8f9fa; /* Light background on hover */
+}
+
+.list-group-item {
+  padding: 10px 15px;
+}

@@ -1,0 +1,67 @@
+<section class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <header class="d-sm-flex align-items-center justify-content-between border-bottom mb-4 pb-3">
+                    <strong class="d-block py-2">{{totalProducts}} Items found </strong>
+                    <div class="d-flex align-items-center gap-3" (change)="onSortChange($event)">
+                        <select class="form-select d-inline-block w-auto border pt-1">
+                            <option value="featured" selected>Sort by: Featured</option> <!-- Default selection -->
+                            <option value="price_asc">Price: Low to High</option>
+                            <option value="price_desc">Price: High to Low</option>
+                            <option value="name_asc">Name: Ascending</option>
+                            <option value="name_desc">Name: Descending</option>
+                        </select>
+
+
+                        <div
+                            [class]="getCurrentLang() === 'ar' ? 'btn-group shadow-0 border rtl' : 'btn-group shadow-0 border'">
+                            <button (click)="changeView()"
+                                [class]="isListView ? 'btn btn-light active' : 'btn btn-light'" title="List view">
+                                <fa-icon [icon]="faList" />
+                            </button>
+                            <button (click)="changeView()"
+                                [class]="isListView ? 'btn btn-light' : 'btn btn-light active'" title="Grid view">
+                                <fa-icon [icon]="faGrid" />
+                            </button>
+                        </div>
+                    </div>
+                </header>
+                <div class="row">
+
+                    @for (product of products; track $index) {
+
+                    <app-card
+                        [class]=" !isListView ? 'col-lg-3 col-md-4 col-sm-6 d-flex' : 'col-lg-4 col-md-6 col-sm-12 d-flex'"
+                        [product]="product" (addToCart)="onAddToCart($event)"></app-card>
+                    }
+                    <app-toast [showMessage]="{
+                        message: 'Item added to cart successfully',
+                        toastVisible: toastVisible
+                    }" />
+                </div>
+
+                <nav aria-label="Page navigation example" class="d-flex justify-content-center mt-3">
+                    <ul class="pagination">
+                        <li [class]="currentPage === 1 ? 'page-item disabled' : 'page-item'">
+                            <button class="page-link" aria-label="Previous" (click)="goToPage(currentPage - 1)">
+                                <span aria-hidden="true">&laquo;</span>
+                            </button>
+                        </li>
+                        <li *ngFor="let page of [].constructor(totalPages); let i = index"
+                            [class]="currentPage === i + 1 ? ' page-item active' : 'page-item'">
+                            <button class="page-link" (click)="goToPage(i + 1)">{{ i + 1 }}</button>
+                        </li>
+
+
+                        <li [class]="currentPage === totalPages ? 'page-item disabled' : 'page-item'">
+                            <button class="page-link" aria-label="Next" (click)="goToPage(currentPage + 1)">
+                                <span aria-hidden="true">&raquo;</span>
+                            </button>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
